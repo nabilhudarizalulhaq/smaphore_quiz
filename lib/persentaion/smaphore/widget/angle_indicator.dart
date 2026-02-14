@@ -32,13 +32,7 @@ class AngleIndicator extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          label,
-          style: const TextStyle(
-            color: Colors.white70,
-            fontSize: 14,
-          ),
-        ),
+        Text(label, style: const TextStyle(color: Colors.red, fontSize: 14)),
         const SizedBox(height: 6),
         Text(
           '${angle.toStringAsFixed(1)}°',

@@ -3,7 +3,7 @@ import 'package:google_mlkit_pose_detection/google_mlkit_pose_detection.dart';
 
 class PosePainter extends CustomPainter {
   final Pose pose;
-  final Size imageSize;
+  final Size imageSize; // ukuran asli frame (width, height) dari CameraImage
   final bool isFrontCamera;
   final double rightAngle;
   final double leftAngle;
@@ -23,19 +23,23 @@ class PosePainter extends CustomPainter {
 
   final Paint linePaint = Paint()
     ..color = Colors.white
-    ..strokeWidth = 3;
+    ..strokeWidth = 3
+    ..style = PaintingStyle.stroke;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final scaleX = size.width / imageSize.height;
-    final scaleY = size.height / imageSize.width;
+    // Skala langsung sesuai ruang koordinat image (TANPA swap x/y)
+    final scaleX = size.width / imageSize.width;
+    final scaleY = size.height / imageSize.height;
 
     Offset transform(double x, double y) {
-      final dx = isFrontCamera
-          ? size.width - (y * scaleX)
-          : y * scaleX;
+      double dx = x * scaleX;
+      double dy = y * scaleY;
 
-      final dy = x * scaleY;
+      // Mirror horizontal untuk kamera depan (selfie)
+      if (isFrontCamera) {
+        dx = size.width - dx;
+      }
       return Offset(dx, dy);
     }
 
@@ -44,11 +48,7 @@ class PosePainter extends CustomPainter {
       final p2 = pose.landmarks[b];
       if (p1 == null || p2 == null) return;
 
-      canvas.drawLine(
-        transform(p1.x, p1.y),
-        transform(p2.x, p2.y),
-        linePaint,
-      );
+      canvas.drawLine(transform(p1.x, p1.y), transform(p2.x, p2.y), linePaint);
     }
 
     // ===== BODY =====
@@ -77,11 +77,7 @@ class PosePainter extends CustomPainter {
 
     // ===== JOINT POINTS =====
     for (final lm in pose.landmarks.values) {
-      canvas.drawCircle(
-        transform(lm.x, lm.y),
-        4,
-        jointPaint,
-      );
+      canvas.drawCircle(transform(lm.x, lm.y), 4, jointPaint);
     }
 
     // ===== ANGLE INFO =====
@@ -99,5 +95,12 @@ class PosePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant PosePainter oldDelegate) => true;
+  bool shouldRepaint(covariant PosePainter oldDelegate) {
+    // repaint jika pose / ukuran / kamera / sudut berubah
+    return oldDelegate.pose != pose ||
+        oldDelegate.imageSize != imageSize ||
+        oldDelegate.isFrontCamera != isFrontCamera ||
+        oldDelegate.rightAngle != rightAngle ||
+        oldDelegate.leftAngle != leftAngle;
+  }
 }
