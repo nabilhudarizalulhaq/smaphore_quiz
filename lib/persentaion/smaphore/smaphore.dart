@@ -210,7 +210,7 @@ class _SmaphorePageState extends State<SmaphorePage> {
         backgroundColor: Colors.green.shade800,
       ),
 
-      // ✅ BUTTON FLIP KAMERA
+      // BUTTON FLIP KAMERA
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green.shade700,
         onPressed: _switchCamera,

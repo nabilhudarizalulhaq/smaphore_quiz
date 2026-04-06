@@ -43,15 +43,7 @@ class HomePage extends StatelessWidget {
 
                 _buildButton(
                   context,
-                  title: 'Start Quiz',
-                  icon: Icons.play_arrow,
-                  routeName: '/quiz',
-                ),
-                const SizedBox(height: 16),
-
-                _buildButton(
-                  context,
-                  title: 'Learn Semaphore',
+                  title: 'Sejarah Pramuka',
                   icon: Icons.menu_book,
                   routeName: '/learn',
                 ),
@@ -59,9 +51,17 @@ class HomePage extends StatelessWidget {
 
                 _buildButton(
                   context,
-                  title: 'About App',
+                  title: 'Pengenalan Sandi',
                   icon: Icons.info_outline,
-                  routeName: '/about',
+                  routeName: '/introductioncode',
+                ),
+                const SizedBox(height: 16),
+
+                _buildButton(
+                  context,
+                  title: 'Start Quiz',
+                  icon: Icons.play_arrow,
+                  routeName: '/quiz',
                 ),
               ],
             ),

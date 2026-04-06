@@ -1,13 +1,13 @@
 class SemaphoreModel {
   final String letter;
   final double right; // sudut siku kanan
-  final double left;  // sudut siku kiri
+  final double left; // sudut siku kiri
 
   const SemaphoreModel(this.letter, this.right, this.left);
 }
 
 const List<SemaphoreModel> semaphoreList = [
-  SemaphoreModel('A', 0, 135),
+  SemaphoreModel('A', 225, 135),
   SemaphoreModel('B', 0, 180),
   SemaphoreModel('C', 45, 180),
   SemaphoreModel('D', 90, 180),

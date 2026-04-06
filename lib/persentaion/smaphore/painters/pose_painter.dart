@@ -11,7 +11,7 @@ class PosePainter extends CustomPainter {
   PosePainter({
     required this.pose,
     required this.imageSize,
-    required this.isFrontCamera,
+    required this.isFrontCamera, 
     required this.rightAngle,
     required this.leftAngle,
   });

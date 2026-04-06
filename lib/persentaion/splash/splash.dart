@@ -14,7 +14,7 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
 
     // Delay 3 detik lalu pindah ke Home
-    Timer(const Duration(seconds: 3), () {
+    Timer(const Duration(seconds: 6), () {
       Navigator.pushReplacementNamed(context, '/home');
     });
   }
@@ -22,20 +22,11 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text(
-              'Welcome to Semaphore Quiz',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 16),
-            Text(
-              'Test your knowledge about semaphore signaling!',
-              style: TextStyle(fontSize: 16, color: Colors.grey),
-            ),
-          ],
+      body: SizedBox.expand(
+        child: Image.asset(
+          'assets/images/splash.png',
+          fit: BoxFit.cover,
+          alignment: Alignment.center,
         ),
       ),
     );
