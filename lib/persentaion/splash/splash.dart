@@ -13,9 +13,9 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
 
-    // Delay 3 detik lalu pindah ke Home
-    Timer(const Duration(seconds: 6), () {
-      Navigator.pushReplacementNamed(context, '/home');
+    // Delay 3 detik lalu pindah ke OnboadingPage
+    Timer(const Duration(seconds: 3), () {
+      Navigator.pushReplacementNamed(context, '/onboarding');
     });
   }
 
