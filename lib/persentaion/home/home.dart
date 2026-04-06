@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:smaphore_quiz/persentaion/home/widget/ic_menu.dart';
+import 'package:smaphore_quiz/persentaion/home/widget/iconButton.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -11,18 +13,11 @@ class HomePage extends StatelessWidget {
       body: Stack(
         children: [
           /// Background Image
-          Positioned.fill(
-            child: Image.asset(
-              _bgImage,
-              fit: BoxFit.cover,
-            ),
-          ),
+          Positioned.fill(child: Image.asset(_bgImage, fit: BoxFit.cover)),
 
           /// Dark Overlay (biar teks kebaca)
           Positioned.fill(
-            child: Container(
-              color: Colors.black.withOpacity(0.4),
-            ),
+            child: Container(color: Colors.black.withOpacity(0.4)),
           ),
 
           /// Content
@@ -30,36 +25,14 @@ class HomePage extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.flag, color: Colors.white, size: 90),
-                  const SizedBox(height: 20),
+                  const Spacer(),
 
-                  const Text(
-                    'Semaphore Quiz',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
+                  const MenuImage(title: 'Semaphore Quiz'),
 
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 80),
 
-                  const Text(
-                    'Test and improve your semaphore signaling knowledge',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.white70,
-                    ),
-                  ),
-
-                  const SizedBox(height: 40),
-
-                  _buildButton(
-                    context,
+                  const MenuImageButton(
                     title: 'Sejarah Pramuka',
                     icon: Icons.menu_book,
                     routeName: '/learn',
@@ -67,8 +40,7 @@ class HomePage extends StatelessWidget {
 
                   const SizedBox(height: 16),
 
-                  _buildButton(
-                    context,
+                  const MenuImageButton(
                     title: 'Pengenalan Sandi',
                     icon: Icons.info_outline,
                     routeName: '/introductioncode',
@@ -76,43 +48,18 @@ class HomePage extends StatelessWidget {
 
                   const SizedBox(height: 16),
 
-                  _buildButton(
-                    context,
+                  const MenuImageButton(
                     title: 'Start Quiz',
                     icon: Icons.play_arrow,
                     routeName: '/quiz',
                   ),
+
+                  const Spacer(),
                 ],
               ),
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  /// Reusable Button Widget (biar gampang di update)
-  Widget _buildButton(
-    BuildContext context, {
-    required String title,
-    required IconData icon,
-    required String routeName,
-  }) {
-    return SizedBox(
-      width: double.infinity,
-      height: 55,
-      child: ElevatedButton.icon(
-        onPressed: () => Navigator.pushNamed(context, routeName),
-        icon: Icon(icon, size: 24),
-        label: Text(title, style: const TextStyle(fontSize: 18)),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.blue.shade800,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
-          ),
-          elevation: 6,
-        ),
       ),
     );
   }
