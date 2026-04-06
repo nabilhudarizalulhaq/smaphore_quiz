@@ -70,6 +70,7 @@ flutter:
     - assets/images/bg_home.png
     - assets/images/icon_btn.png
     - assets/images/menu_ic.png
+    - assets/images/back_ic.png
     # - assets/animations/
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -5,7 +5,7 @@ import 'package:smaphore_quiz/persentaion/home/home.dart';
 import 'package:smaphore_quiz/persentaion/onboarding/onboardingPage.dart';
 import 'package:smaphore_quiz/persentaion/smaphore/smaphore.dart';
 import 'package:smaphore_quiz/persentaion/smaphore/widget/introductionCodePage.dart';
-import 'package:smaphore_quiz/persentaion/smaphore/widget/learnSmaphore.dart';
+import 'package:smaphore_quiz/persentaion/learn/page/LearnsmaphorePage.dart';
 import 'package:smaphore_quiz/persentaion/splash/splash.dart';
 
 /// GLOBAL CAMERA LIST (WAJIB)
