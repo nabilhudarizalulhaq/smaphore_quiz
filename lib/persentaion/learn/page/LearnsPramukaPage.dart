@@ -4,8 +4,8 @@ import 'package:smaphore_quiz/persentaion/learn/data/sejarah_pramuka.dart';
 import 'package:smaphore_quiz/persentaion/learn/model/article_section.dart';
 import 'package:smaphore_quiz/persentaion/shared/widget/custom_back_app_bar.dart';
 
-class LearnsmaphorePage extends StatelessWidget {
-  const LearnsmaphorePage({super.key});
+class LearnPramukaPage extends StatelessWidget {
+  const LearnPramukaPage({super.key});
 
   static const String _bgImage = 'assets/images/bg_home.png';
 
