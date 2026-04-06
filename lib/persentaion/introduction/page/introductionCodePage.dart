@@ -49,9 +49,7 @@ class _IntroductionCodePageState extends State<IntroductionCodePage> {
                     padding: const EdgeInsets.fromLTRB(16, 20, 16, 24),
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.93),
-                      borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(24),
-                      ),
+                      borderRadius: const BorderRadius.all(Radius.circular(24)),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(0.12),
