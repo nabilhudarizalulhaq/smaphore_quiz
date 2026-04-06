@@ -72,6 +72,9 @@ flutter:
     - assets/images/menu_ic.png
     - assets/images/back_ic.png
     # - assets/animations/
+    - assets/images/semaphore/
+    # - assets/images/semaphore/c.png
+    # - assets/images/semaphore/d.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
