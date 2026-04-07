@@ -125,7 +125,7 @@ class _IntroductionCodePageState extends State<IntroductionCodePage> {
                               height: 8,
                               decoration: BoxDecoration(
                                 color: isActive
-                                    ? Colors.orange.shade700
+                                    ? Color(0xFF5C3A21)
                                     : Colors.grey.shade400,
                                 borderRadius: BorderRadius.circular(20),
                               ),
