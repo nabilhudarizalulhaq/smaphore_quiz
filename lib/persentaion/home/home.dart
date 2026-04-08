@@ -51,7 +51,7 @@ class HomePage extends StatelessWidget {
                   const MenuImageButton(
                     title: 'Start Quiz',
                     icon: Icons.play_arrow,
-                    routeName: '/quiz',
+                    routeName: '/level',
                   ),
 
                   const Spacer(),

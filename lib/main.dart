@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 
 import 'package:smaphore_quiz/persentaion/home/home.dart';
+import 'package:smaphore_quiz/persentaion/level/menu/levelhome.dart';
 import 'package:smaphore_quiz/persentaion/onboarding/onboardingPage.dart';
 import 'package:smaphore_quiz/persentaion/smaphore/smaphore.dart';
 import 'package:smaphore_quiz/persentaion/introduction/page/introductionCodePage.dart';
@@ -33,7 +34,8 @@ class MyApp extends StatelessWidget {
         '/': (context) => const SplashPage(),
         '/onboarding': (context) => const OnboardingPage(),
         '/home': (context) => const HomePage(),
-        '/quiz': (context) => const SmaphorePage(),
+        '/level': (context) => const Levelhome(),
+        '/smaphore': (context) => const SmaphorePage(),
         '/learn': (context) => const LearnPramukaPage(),
         '/introductioncode': (context) => const IntroductionCodePage(),
       },
