@@ -1,26 +1,52 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:smaphore_quiz/core/audio/audio_service.dart';
+import 'package:semaphore_quiz/core/audio/audio_service.dart';
+import 'package:semaphore_quiz/presentation/home/home.dart';
+import 'package:semaphore_quiz/presentation/introduction/page/introductionCodePage.dart';
+import 'package:semaphore_quiz/presentation/learn/page/LearnsPramukaPage.dart';
+import 'package:semaphore_quiz/presentation/level/menu/levelhome.dart';
+import 'package:semaphore_quiz/presentation/onboarding/onboardingPage.dart';
+import 'package:semaphore_quiz/presentation/semaphore/semaphore.dart';
+import 'package:semaphore_quiz/presentation/splash/splash.dart';
 
-import 'package:smaphore_quiz/persentaion/home/home.dart';
-import 'package:smaphore_quiz/persentaion/level/menu/levelhome.dart';
-import 'package:smaphore_quiz/persentaion/onboarding/onboardingPage.dart';
-import 'package:smaphore_quiz/persentaion/smaphore/smaphore.dart';
-import 'package:smaphore_quiz/persentaion/introduction/page/introductionCodePage.dart';
-import 'package:smaphore_quiz/persentaion/learn/page/LearnsPramukaPage.dart';
-import 'package:smaphore_quiz/persentaion/splash/splash.dart';
-
-/// GLOBAL CAMERA LIST (WAJIB)
 late List<CameraDescription> cameras;
+
+bool isCameraAvailable = false;
+bool isAudioAvailable = false;
+
+void logError(
+  String message, {
+  Object? error,
+  StackTrace? stackTrace,
+}) {
+  if (kDebugMode) {
+    debugPrint('[ERROR] $message');
+    if (error != null) debugPrint('Detail: $error');
+    if (stackTrace != null) debugPrint('$stackTrace');
+  }
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await AudioService.instance.init();
-  await AudioService.instance.preloadBgm();
+  try {
+    await AudioService.instance.init();
+    await AudioService.instance.preloadBgm();
+    isAudioAvailable = true;
+  } catch (e, st) {
+    isAudioAvailable = false;
+    logError('Gagal inisialisasi audio', error: e, stackTrace: st);
+  }
 
-  // Inisialisasi kamera sebelum aplikasi berjalan
-  cameras = await availableCameras();
+  try {
+    cameras = await availableCameras();
+    isCameraAvailable = cameras.isNotEmpty;
+  } catch (e, st) {
+    cameras = <CameraDescription>[];
+    isCameraAvailable = false;
+    logError('Gagal mengambil daftar kamera', error: e, stackTrace: st);
+  }
 
   runApp(const MyApp());
 }

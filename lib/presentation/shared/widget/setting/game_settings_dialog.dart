@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smaphore_quiz/core/audio/audio_service.dart';
-import 'package:smaphore_quiz/persentaion/shared/widget/custom_back_app_bar.dart';
+import 'package:semaphore_quiz/core/audio/audio_service.dart';
 import 'settings_controller.dart';
 
 class GameSettingsDialog extends StatefulWidget {
@@ -223,11 +222,7 @@ class _GameSettingsDialogState extends State<GameSettingsDialog> {
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  Icon(
-                    icon,
-                    color: Colors.white,
-                    size: 42,
-                  ),
+                  Icon(icon, color: Colors.white, size: 42),
                   if (!enabled)
                     Container(
                       width: 50,
@@ -308,10 +303,7 @@ class _GameSettingsDialogState extends State<GameSettingsDialog> {
           const Positioned(
             right: 8,
             top: -6,
-            child: CircleAvatar(
-              radius: 9,
-              backgroundColor: Colors.red,
-            ),
+            child: CircleAvatar(radius: 9, backgroundColor: Colors.red),
           ),
       ],
     );

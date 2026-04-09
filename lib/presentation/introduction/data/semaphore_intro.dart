@@ -1,4 +1,4 @@
-import 'package:smaphore_quiz/persentaion/introduction/model/semaphore_item.dart';
+import 'package:semaphore_quiz/presentation/introduction/model/semaphore_item.dart';
 
 class SemaphoreIntroData {
   static const String pageTitle = 'Pengenalan Sandi Semaphore';

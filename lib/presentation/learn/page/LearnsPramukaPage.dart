@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:smaphore_quiz/persentaion/home/widget/ic_menu.dart';
-import 'package:smaphore_quiz/persentaion/learn/data/sejarah_pramuka.dart';
-import 'package:smaphore_quiz/persentaion/learn/model/article_section.dart';
-import 'package:smaphore_quiz/persentaion/shared/widget/custom_back_app_bar.dart';
+import 'package:semaphore_quiz/presentation/home/widget/ic_menu.dart';
+import 'package:semaphore_quiz/presentation/learn/data/sejarah_pramuka.dart';
+import 'package:semaphore_quiz/presentation/learn/model/article_section.dart';
+import 'package:semaphore_quiz/presentation/shared/widget/custom_back_app_bar.dart';
 
 class LearnPramukaPage extends StatelessWidget {
   const LearnPramukaPage({super.key});

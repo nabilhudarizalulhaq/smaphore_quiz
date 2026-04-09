@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:flutter/material.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -9,14 +9,22 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
+  Timer? _timer;
+
   @override
   void initState() {
     super.initState();
 
-    // Delay 3 detik lalu pindah ke OnboadingPage
-    Timer(const Duration(seconds: 3), () {
+    _timer = Timer(const Duration(seconds: 3), () {
+      if (!mounted) return;
       Navigator.pushReplacementNamed(context, '/onboarding');
     });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
 
   @override

@@ -4,7 +4,7 @@ class LevelImage1 extends StatelessWidget {
   const LevelImage1({
     super.key,
     required this.title,
-    this.onTap,
+    required this.onTap,
     this.backgroundImage = 'assets/images/level/bg_lv.png',
     this.iconImage = 'assets/images/level/ic_l1.png',
   });

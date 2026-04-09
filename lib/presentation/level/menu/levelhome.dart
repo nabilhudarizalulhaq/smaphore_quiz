@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:smaphore_quiz/persentaion/level/widget/levelImage.dart';
-import 'package:smaphore_quiz/persentaion/level/selectlevel/level1/levelimage1.dart';
-import 'package:smaphore_quiz/persentaion/level/selectlevel/level2/levelimage2.dart';
-import 'package:smaphore_quiz/persentaion/level/selectlevel/level3/levelimage3.dart';
-import 'package:smaphore_quiz/persentaion/level/selectlevel/level4/levelimage4.dart';
-import 'package:smaphore_quiz/persentaion/shared/widget/custom_back_app_bar.dart';
+import 'package:semaphore_quiz/presentation/level/selectlevel/level1/levelimage1.dart';
+import 'package:semaphore_quiz/presentation/level/selectlevel/level2/levelimage2.dart';
+import 'package:semaphore_quiz/presentation/level/selectlevel/level3/levelimage3.dart';
+import 'package:semaphore_quiz/presentation/level/selectlevel/level4/levelimage4.dart';
+import 'package:semaphore_quiz/presentation/level/widget/levelImage.dart';
+import 'package:semaphore_quiz/presentation/semaphore/semaphore.dart';
+import 'package:semaphore_quiz/presentation/shared/widget/custom_back_app_bar.dart';
 
 class Levelhome extends StatelessWidget {
   const Levelhome({super.key});
@@ -14,10 +15,18 @@ class Levelhome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final levelWidgets = [
-      const LevelImage1(title: 'Tingkat I\nSiaga Mula'),
-      const LevelImage2(title: 'Tingkat II\nSiaga Bantu'),
-      const LevelImage3(title: 'Tingkat III\nSiaga Tata'),
-      const LevelImage4(title: 'Tingkat IV\nPenggalang Ramu'),
+      LevelImage1(
+        title: 'Tingkat I\nSiaga Mula',
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const SmaphorePage()),
+          );
+        },
+      ),
+      LevelImage2(title: 'Tingkat II\nSiaga Bantu', onTap: () {}),
+      LevelImage3(title: 'Tingkat III\nSiaga Tata', onTap: () {}),
+      LevelImage4(title: 'Tingkat IV\nPenggalang Ramu', onTap: () {}),
     ];
 
     return Scaffold(

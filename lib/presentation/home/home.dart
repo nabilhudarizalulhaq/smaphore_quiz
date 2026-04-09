@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:smaphore_quiz/core/audio/audio_service.dart';
-import 'package:smaphore_quiz/persentaion/home/widget/ic_menu.dart';
-import 'package:smaphore_quiz/persentaion/home/widget/iconButton.dart';
-import 'package:smaphore_quiz/persentaion/shared/widget/setting.dart';
-import 'package:smaphore_quiz/persentaion/shared/widget/setting/game_settings_dialog.dart';
-import 'package:smaphore_quiz/persentaion/shared/widget/setting/settings_controller.dart';
+import 'package:semaphore_quiz/core/audio/audio_service.dart';
+import 'package:semaphore_quiz/presentation/home/widget/ic_menu.dart';
+import 'package:semaphore_quiz/presentation/home/widget/iconButton.dart';
+import 'package:semaphore_quiz/presentation/shared/widget/setting.dart';
+import 'package:semaphore_quiz/presentation/shared/widget/setting/game_settings_dialog.dart';
+import 'package:semaphore_quiz/presentation/shared/widget/setting/settings_controller.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

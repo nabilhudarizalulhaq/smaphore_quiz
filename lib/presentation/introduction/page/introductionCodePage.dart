@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:smaphore_quiz/persentaion/home/widget/ic_menu.dart';
-import 'package:smaphore_quiz/persentaion/introduction/data/semaphore_intro.dart';
-import 'package:smaphore_quiz/persentaion/introduction/model/semaphore_item.dart';
-import 'package:smaphore_quiz/persentaion/shared/widget/custom_back_app_bar.dart';
+import 'package:semaphore_quiz/presentation/home/widget/ic_menu.dart';
+import 'package:semaphore_quiz/presentation/introduction/data/semaphore_intro.dart';
+import 'package:semaphore_quiz/presentation/introduction/model/semaphore_item.dart';
+import 'package:semaphore_quiz/presentation/shared/widget/custom_back_app_bar.dart';
 
 class IntroductionCodePage extends StatefulWidget {
   const IntroductionCodePage({super.key});

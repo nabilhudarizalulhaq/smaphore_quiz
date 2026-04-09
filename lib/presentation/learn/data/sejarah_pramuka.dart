@@ -1,4 +1,4 @@
-import 'package:smaphore_quiz/persentaion/learn/model/article_section.dart';
+import 'package:semaphore_quiz/presentation/learn/model/article_section.dart';
 
 class SejarahPramukaData {
   static const String articleTitle = 'Sejarah Pramuka';

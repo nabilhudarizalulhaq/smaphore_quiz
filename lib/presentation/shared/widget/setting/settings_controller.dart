@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:smaphore_quiz/core/audio/audio_service.dart';
+import 'package:semaphore_quiz/core/audio/audio_service.dart';
 
 class SettingsController extends ChangeNotifier {
   bool _soundOn = true;
