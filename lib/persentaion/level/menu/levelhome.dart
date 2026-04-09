@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:smaphore_quiz/persentaion/level/widget/levelImage.dart';
-import 'package:smaphore_quiz/persentaion/level/widget/levelimage1.dart';
-import 'package:smaphore_quiz/persentaion/level/widget/levelimage2.dart';
-import 'package:smaphore_quiz/persentaion/level/widget/levelimage3.dart';
-import 'package:smaphore_quiz/persentaion/level/widget/levelimage4.dart';
+import 'package:smaphore_quiz/persentaion/level/selectlevel/level1/levelimage1.dart';
+import 'package:smaphore_quiz/persentaion/level/selectlevel/level2/levelimage2.dart';
+import 'package:smaphore_quiz/persentaion/level/selectlevel/level3/levelimage3.dart';
+import 'package:smaphore_quiz/persentaion/level/selectlevel/level4/levelimage4.dart';
 import 'package:smaphore_quiz/persentaion/shared/widget/custom_back_app_bar.dart';
 
 class Levelhome extends StatelessWidget {

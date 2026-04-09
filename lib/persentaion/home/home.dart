@@ -18,7 +18,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final SettingsController _settingsController = SettingsController();
 
-  void _showSettings() async {
+  @override
+  void initState() {
+    super.initState();
+    AudioService.instance.playBgm();
+  }
+
+  Future<void> _showSettings() async {
     await AudioService.instance.playClick();
 
     if (!mounted) return;
@@ -28,13 +34,18 @@ class _HomePageState extends State<HomePage> {
       barrierDismissible: false,
       builder: (_) => GameSettingsDialog(
         controller: _settingsController,
-        onHome: () => Navigator.pop(context),
         onReplay: () => Navigator.pop(context),
         onMoreGames: () {},
         onMoreSettings: () {},
         onDefaultSkin: () {},
       ),
     );
+  }
+
+  Future<void> _onBackTap() async {
+    await AudioService.instance.playClick();
+    if (!mounted) return;
+    Navigator.of(context).maybePop();
   }
 
   @override
@@ -45,30 +56,39 @@ class _HomePageState extends State<HomePage> {
           Positioned.fill(
             child: Image.asset(HomePage._bgImage, fit: BoxFit.cover),
           ),
-
           Positioned.fill(
             child: Container(color: Colors.black.withOpacity(0.4)),
           ),
-
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Column(
                 children: [
-                  CustomSettingAppBar(onTap: _showSettings),
+                  CustomSettingAppBar(
+                    onBackTap: () {
+                      Navigator.pushReplacementNamed(context, '/onboarding');
+                    },
+                    onSettingTap: _showSettings,
+                    centerTitle: true,
+                    title: const Text(
+                      'Home',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                  ),
 
-                  const Spacer(),
-
+                  const SizedBox(height: 36),
                   const MenuImage(title: 'Semaphore Quiz'),
-
-                  const SizedBox(height: 80),
+                  const SizedBox(height: 64),
 
                   const MenuImageButton(
                     title: 'Sejarah Pramuka',
                     icon: Icons.menu_book,
                     routeName: '/learn',
                   ),
-
                   const SizedBox(height: 16),
 
                   const MenuImageButton(
@@ -76,7 +96,6 @@ class _HomePageState extends State<HomePage> {
                     icon: Icons.info_outline,
                     routeName: '/introductioncode',
                   ),
-
                   const SizedBox(height: 16),
 
                   const MenuImageButton(
