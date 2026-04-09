@@ -6,7 +6,7 @@ class LevelImage4 extends StatelessWidget {
     required this.title,
     this.onTap,
     this.backgroundImage = 'assets/images/level/bg_lv.png',
-    this.iconImage = 'assets/images/level/ic_l1.png',
+    this.iconImage = 'assets/images/level/ic_l4.png',
   });
 
   final String title;
@@ -33,7 +33,7 @@ class LevelImage4 extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                     child: Image.asset(
                       backgroundImage,
-                      fit: BoxFit.cover,
+                      fit: BoxFit.contain,
                       // errorBuilder: (context, error, stackTrace) {
                       //   return Container(
                       //     decoration: BoxDecoration(
@@ -60,16 +60,16 @@ class LevelImage4 extends StatelessWidget {
                     children: [
                       Image.asset(
                         iconImage,
-                        width: 28,
-                        height: 28,
+                        width: 60,
+                        height: 60,
                         fit: BoxFit.contain,
-                        // errorBuilder: (context, error, stackTrace) {
-                        //   return const Icon(
-                        //     Icons.emoji_events_rounded,
-                        //     size: 28,
-                        //     color: Color(0xFF5C3415),
-                        //   );
-                        // },
+                        errorBuilder: (context, error, stackTrace) {
+                          return const Icon(
+                            Icons.emoji_events_rounded,
+                            size: 28,
+                            color: Color(0xFF5C3415),
+                          );
+                        },
                       ),
                       const SizedBox(height: 8),
                       Flexible(
@@ -79,7 +79,7 @@ class LevelImage4 extends StatelessWidget {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
-                            fontSize: 18,
+                            fontSize: 16,
                             fontWeight: FontWeight.bold,
                             color: Color(0xFF5C3415),
                           ),

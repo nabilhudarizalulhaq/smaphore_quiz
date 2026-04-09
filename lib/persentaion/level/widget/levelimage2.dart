@@ -6,7 +6,7 @@ class LevelImage2 extends StatelessWidget {
     required this.title,
     this.onTap,
     this.backgroundImage = 'assets/images/level/bg_lv.png',
-    this.iconImage = 'assets/images/level/ic_l1.png',
+    this.iconImage = 'assets/images/level/ic_l2.png',
   });
 
   final String title;
@@ -33,19 +33,19 @@ class LevelImage2 extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                     child: Image.asset(
                       backgroundImage,
-                      fit: BoxFit.cover,
-                      // errorBuilder: (context, error, stackTrace) {
-                      //   return Container(
-                      //     decoration: BoxDecoration(
-                      //       color: const Color(0xFFD7B690),
-                      //       borderRadius: BorderRadius.circular(20),
-                      //       border: Border.all(
-                      //         color: const Color(0xFF8B5E3C),
-                      //         width: 1.2,
-                      //       ),
-                      //     ),
-                      //   );
-                      // },
+                      fit: BoxFit.contain,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFD7B690),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              color: const Color(0xFF8B5E3C),
+                              width: 1.2,
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -60,8 +60,8 @@ class LevelImage2 extends StatelessWidget {
                     children: [
                       Image.asset(
                         iconImage,
-                        width: 28,
-                        height: 28,
+                        width: 50,
+                        height: 50,
                         fit: BoxFit.contain,
                         // errorBuilder: (context, error, stackTrace) {
                         //   return const Icon(

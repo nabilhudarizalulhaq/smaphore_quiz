@@ -33,7 +33,7 @@ class LevelImage1 extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                     child: Image.asset(
                       backgroundImage,
-                      fit: BoxFit.cover,
+                      fit: BoxFit.contain,
                       errorBuilder: (context, error, stackTrace) {
                         return Container(
                           decoration: BoxDecoration(
@@ -60,8 +60,8 @@ class LevelImage1 extends StatelessWidget {
                     children: [
                       Image.asset(
                         iconImage,
-                        width: 28,
-                        height: 28,
+                        width: 50,
+                        height: 50,
                         fit: BoxFit.contain,
                         errorBuilder: (context, error, stackTrace) {
                           return const Icon(

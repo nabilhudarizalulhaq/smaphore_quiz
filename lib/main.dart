@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:smaphore_quiz/core/audio/audio_service.dart';
 
 import 'package:smaphore_quiz/persentaion/home/home.dart';
 import 'package:smaphore_quiz/persentaion/level/menu/levelhome.dart';
@@ -14,6 +15,9 @@ late List<CameraDescription> cameras;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await AudioService.instance.init();
+  await AudioService.instance.preloadBgm();
 
   // Inisialisasi kamera sebelum aplikasi berjalan
   cameras = await availableCameras();
