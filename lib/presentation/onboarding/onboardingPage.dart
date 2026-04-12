@@ -40,7 +40,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 ),
               ),
               child: const Text(
-                'Mulai',
+                'Selanjutnya',
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,

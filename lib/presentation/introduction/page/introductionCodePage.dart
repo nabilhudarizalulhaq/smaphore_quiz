@@ -1,3 +1,4 @@
+// ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:semaphore_quiz/presentation/home/widget/ic_menu.dart';
 import 'package:semaphore_quiz/presentation/introduction/data/semaphore_intro.dart';
@@ -32,6 +33,7 @@ class _IntroductionCodePageState extends State<IntroductionCodePage> {
         children: [
           Positioned.fill(child: Image.asset(_bgImage, fit: BoxFit.cover)),
           Positioned.fill(
+            // ignore: deprecated_member_use
             child: Container(color: Colors.black.withOpacity(0.35)),
           ),
           SafeArea(
@@ -52,6 +54,7 @@ class _IntroductionCodePageState extends State<IntroductionCodePage> {
                       borderRadius: const BorderRadius.all(Radius.circular(24)),
                       boxShadow: [
                         BoxShadow(
+                          // ignore: deprecated_member_use
                           color: Colors.black.withOpacity(0.12),
                           blurRadius: 14,
                           offset: const Offset(0, 6),
@@ -190,7 +193,7 @@ class _IntroductionCodePageState extends State<IntroductionCodePage> {
                               label: const Text('Berikutnya'),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFF5C3A21),
-                                foregroundColor: Colors.white,
+                                foregroundColor: const Color(0xFFFFE9BF),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(14),
                                 ),
@@ -225,11 +228,12 @@ class _SemaphoreSliderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: const Color(0xFFFFF3D9),
         borderRadius: BorderRadius.circular(22),
         border: Border.all(color: Colors.grey.shade200),
         boxShadow: [
           BoxShadow(
+            // ignore: deprecated_member_use
             color: Colors.black.withOpacity(0.05),
             blurRadius: 12,
             offset: const Offset(0, 5),
@@ -247,7 +251,7 @@ class _SemaphoreSliderCard extends StatelessWidget {
               ),
               child: Container(
                 width: double.infinity,
-                color: Colors.grey.shade100,
+                color: const Color(0xFFFFF3D9),
                 child: Image.asset(item.imagePath, fit: BoxFit.contain),
               ),
             ),

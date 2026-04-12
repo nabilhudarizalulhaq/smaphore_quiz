@@ -100,7 +100,7 @@ class _HomePageState extends State<HomePage> {
                   const SizedBox(height: 16),
 
                   const MenuImageButton(
-                    title: 'Start Quiz',
+                    title: 'Mulai Petualangan',
                     icon: Icons.play_arrow,
                     routeName: '/level',
                   ),
