@@ -18,6 +18,7 @@ class LearnPramukaPage extends StatelessWidget {
         children: [
           Positioned.fill(child: Image.asset(_bgImage, fit: BoxFit.cover)),
           Positioned.fill(
+            // ignore: deprecated_member_use
             child: Container(color: Colors.black.withOpacity(0.35)),
           ),
           SafeArea(
@@ -33,10 +34,11 @@ class LearnPramukaPage extends StatelessWidget {
                     margin: const EdgeInsets.symmetric(horizontal: 20),
                     padding: const EdgeInsets.fromLTRB(16, 20, 16, 24),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.92),
+                      color: Color(0xFFFFE9BF).withOpacity(0.80),
                       borderRadius: const BorderRadius.all(Radius.circular(24)),
                       boxShadow: [
                         BoxShadow(
+                          // ignore: deprecated_member_use
                           color: Colors.black.withOpacity(0.12),
                           blurRadius: 14,
                           offset: const Offset(0, 6),
@@ -82,7 +84,7 @@ class _ArticleHeader extends StatelessWidget {
           style: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w600,
-            color: Colors.orange.shade800,
+            color: Color(0xFF643B15),
             letterSpacing: 0.5,
           ),
         ),
@@ -121,9 +123,9 @@ class _ArticleCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Color.fromARGB(255, 207, 187, 150),
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: Color(0xFFC36A2B), width: 1.5),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.04),
@@ -168,16 +170,16 @@ class _SectionDivider extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 14),
       child: Row(
         children: [
-          Expanded(child: Divider(color: Colors.grey.shade300, thickness: 1)),
+          Expanded(child: Divider(color: Color(0xFFC36A2B), thickness: 1.0)),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Icon(
               Icons.auto_stories_rounded,
               size: 18,
-              color: Colors.grey.shade500,
+              color: Color(0xFF643B15),
             ),
           ),
-          Expanded(child: Divider(color: Colors.grey.shade300, thickness: 1)),
+          Expanded(child: Divider(color: Color(0xFFC36A2B), thickness: 1.0)),
         ],
       ),
     );

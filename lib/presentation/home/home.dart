@@ -81,9 +81,9 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
 
-                  const SizedBox(height: 36),
+                  const SizedBox(height: 50),
                   const MenuImage(title: 'Semaphore Quiz'),
-                  const SizedBox(height: 64),
+                  const SizedBox(height: 200),
 
                   const MenuImageButton(
                     title: 'Sejarah Pramuka',

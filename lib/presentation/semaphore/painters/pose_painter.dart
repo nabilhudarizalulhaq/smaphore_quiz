@@ -3,7 +3,7 @@ import 'package:google_mlkit_pose_detection/google_mlkit_pose_detection.dart';
 
 class PosePainter extends CustomPainter {
   final Pose pose;
-  final Size imageSize; // ukuran asli frame (width, height) dari CameraImage
+  final Size imageSize;
   final bool isFrontCamera;
   final double rightAngle;
   final double leftAngle;
@@ -11,7 +11,7 @@ class PosePainter extends CustomPainter {
   PosePainter({
     required this.pose,
     required this.imageSize,
-    required this.isFrontCamera, 
+    required this.isFrontCamera,
     required this.rightAngle,
     required this.leftAngle,
   });
@@ -28,19 +28,25 @@ class PosePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    // Skala langsung sesuai ruang koordinat image (TANPA swap x/y)
-    final scaleX = size.width / imageSize.width;
-    final scaleY = size.height / imageSize.height;
+    final fittedSizes = applyBoxFit(BoxFit.cover, imageSize, size);
+    final sourceSize = fittedSizes.source;
+    final destinationSize = fittedSizes.destination;
+
+    final dx = (size.width - destinationSize.width) / 2;
+    final dy = (size.height - destinationSize.height) / 2;
+
+    final scaleX = destinationSize.width / sourceSize.width;
+    final scaleY = destinationSize.height / sourceSize.height;
 
     Offset transform(double x, double y) {
-      double dx = x * scaleX;
-      double dy = y * scaleY;
+      double mappedX = x * scaleX + dx;
+      double mappedY = y * scaleY + dy;
 
-      // Mirror horizontal untuk kamera depan (selfie)
       if (isFrontCamera) {
-        dx = size.width - dx;
+        mappedX = dx + destinationSize.width - (x * scaleX);
       }
-      return Offset(dx, dy);
+
+      return Offset(mappedX, mappedY);
     }
 
     void drawLine(PoseLandmarkType a, PoseLandmarkType b) {
@@ -48,44 +54,46 @@ class PosePainter extends CustomPainter {
       final p2 = pose.landmarks[b];
       if (p1 == null || p2 == null) return;
 
-      canvas.drawLine(transform(p1.x, p1.y), transform(p2.x, p2.y), linePaint);
+      canvas.drawLine(
+        transform(p1.x, p1.y),
+        transform(p2.x, p2.y),
+        linePaint,
+      );
     }
 
-    // ===== BODY =====
     drawLine(PoseLandmarkType.leftShoulder, PoseLandmarkType.rightShoulder);
     drawLine(PoseLandmarkType.leftShoulder, PoseLandmarkType.leftHip);
     drawLine(PoseLandmarkType.rightShoulder, PoseLandmarkType.rightHip);
     drawLine(PoseLandmarkType.leftHip, PoseLandmarkType.rightHip);
 
-    // ===== ARMS =====
     drawLine(PoseLandmarkType.leftShoulder, PoseLandmarkType.leftElbow);
     drawLine(PoseLandmarkType.leftElbow, PoseLandmarkType.leftWrist);
     drawLine(PoseLandmarkType.rightShoulder, PoseLandmarkType.rightElbow);
     drawLine(PoseLandmarkType.rightElbow, PoseLandmarkType.rightWrist);
 
-    // ===== LEGS =====
     drawLine(PoseLandmarkType.leftHip, PoseLandmarkType.leftKnee);
     drawLine(PoseLandmarkType.leftKnee, PoseLandmarkType.leftAnkle);
     drawLine(PoseLandmarkType.rightHip, PoseLandmarkType.rightKnee);
     drawLine(PoseLandmarkType.rightKnee, PoseLandmarkType.rightAnkle);
 
-    // ===== HEAD =====
     drawLine(PoseLandmarkType.nose, PoseLandmarkType.leftEye);
     drawLine(PoseLandmarkType.nose, PoseLandmarkType.rightEye);
     drawLine(PoseLandmarkType.leftEye, PoseLandmarkType.leftEar);
     drawLine(PoseLandmarkType.rightEye, PoseLandmarkType.rightEar);
 
-    // ===== JOINT POINTS =====
     for (final lm in pose.landmarks.values) {
       canvas.drawCircle(transform(lm.x, lm.y), 4, jointPaint);
     }
 
-    // ===== ANGLE INFO =====
     final textPainter = TextPainter(
       text: TextSpan(
         text:
             'R: ${rightAngle.toStringAsFixed(1)}° | L: ${leftAngle.toStringAsFixed(1)}°',
-        style: const TextStyle(color: Colors.green, fontSize: 16),
+        style: const TextStyle(
+          color: Colors.green,
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+        ),
       ),
       textDirection: TextDirection.ltr,
     );
@@ -96,7 +104,6 @@ class PosePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant PosePainter oldDelegate) {
-    // repaint jika pose / ukuran / kamera / sudut berubah
     return oldDelegate.pose != pose ||
         oldDelegate.imageSize != imageSize ||
         oldDelegate.isFrontCamera != isFrontCamera ||

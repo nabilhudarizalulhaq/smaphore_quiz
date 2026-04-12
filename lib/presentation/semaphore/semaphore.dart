@@ -16,7 +16,8 @@ class SmaphorePage extends StatefulWidget {
   State<SmaphorePage> createState() => _SmaphorePageState();
 }
 
-class _SmaphorePageState extends State<SmaphorePage> {
+class _SmaphorePageState extends State<SmaphorePage>
+    with WidgetsBindingObserver {
   CameraController? _cameraController;
   late final PoseDetector _poseDetector;
 
@@ -26,6 +27,7 @@ class _SmaphorePageState extends State<SmaphorePage> {
   bool _isBusy = false;
   bool _isInitializingCamera = false;
   bool _isFrontCamera = true;
+  bool _isDisposed = false;
 
   String? _cameraError;
   String _detectedLetter = "";
@@ -38,9 +40,12 @@ class _SmaphorePageState extends State<SmaphorePage> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+
     _poseDetector = PoseDetector(
       options: PoseDetectorOptions(mode: PoseDetectionMode.stream),
     );
+
     _initCamera();
   }
 
@@ -52,8 +57,12 @@ class _SmaphorePageState extends State<SmaphorePage> {
     }
   }
 
+  ResolutionPreset _pickResolutionPreset() {
+    return ResolutionPreset.high;
+  }
+
   Future<void> _initCamera({CameraDescription? camera}) async {
-    if (_isInitializingCamera) return;
+    if (_isInitializingCamera || _isDisposed) return;
     _isInitializingCamera = true;
 
     try {
@@ -74,14 +83,26 @@ class _SmaphorePageState extends State<SmaphorePage> {
       _isFrontCamera =
           selectedCamera.lensDirection == CameraLensDirection.front;
 
+      final oldController = _cameraController;
+      _cameraController = null;
+
+      await oldController?.stopImageStream().catchError((_) {});
+      await oldController?.dispose();
+
       final controller = CameraController(
         selectedCamera,
-        ResolutionPreset.medium,
+        _pickResolutionPreset(),
         enableAudio: false,
         imageFormatGroup: ImageFormatGroup.yuv420,
       );
 
       await controller.initialize();
+
+      if (_isDisposed) {
+        await controller.dispose();
+        return;
+      }
+
       await controller.startImageStream(_processImage);
 
       _cameraController = controller;
@@ -100,7 +121,8 @@ class _SmaphorePageState extends State<SmaphorePage> {
   Future<void> _switchCamera() async {
     if (_cameraController == null ||
         _currentCamera == null ||
-        cameras.isEmpty) {
+        cameras.isEmpty ||
+        _isInitializingCamera) {
       return;
     }
 
@@ -110,10 +132,10 @@ class _SmaphorePageState extends State<SmaphorePage> {
         orElse: () => _currentCamera!,
       );
 
-      await _cameraController?.stopImageStream();
-      await _cameraController?.dispose();
-      _cameraController = null;
       _currentPose = null;
+      _detectedLetter = "";
+
+      if (mounted) setState(() {});
 
       await _initCamera(camera: newCamera);
     } catch (e, st) {
@@ -122,7 +144,7 @@ class _SmaphorePageState extends State<SmaphorePage> {
   }
 
   Future<void> _processImage(CameraImage image) async {
-    if (_isBusy) return;
+    if (_isBusy || _isDisposed) return;
     _isBusy = true;
 
     try {
@@ -153,17 +175,14 @@ class _SmaphorePageState extends State<SmaphorePage> {
 
       if (!hasRightArm || !hasLeftArm) {
         _detectedLetter = "";
-        _log('Frame dilewati: landmark lengan tidak lengkap');
         return;
       }
 
       final right = _calculateAngle(rightShoulder, rightElbow, rightWrist);
-
       final left = _calculateAngle(leftShoulder, leftElbow, leftWrist);
 
       if (right == null || left == null) {
         _detectedLetter = "";
-        _log('Frame dilewati: sudut tidak valid');
         return;
       }
 
@@ -227,9 +246,33 @@ class _SmaphorePageState extends State<SmaphorePage> {
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    final controller = _cameraController;
+
+    if (controller == null || !controller.value.isInitialized) return;
+
+    if (state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.paused) {
+      await controller.stopImageStream().catchError((_) {});
+      await controller.dispose().catchError((_) {});
+      _cameraController = null;
+    } else if (state == AppLifecycleState.resumed) {
+      await _initCamera(camera: _currentCamera);
+    }
+  }
+
+  @override
   void dispose() {
-    _cameraController?.dispose();
+    _isDisposed = true;
+    WidgetsBinding.instance.removeObserver(this);
+
+    final controller = _cameraController;
+    _cameraController = null;
+
+    controller?.stopImageStream().catchError((_) {});
+    controller?.dispose().catchError((_) {});
     _poseDetector.close();
+
     super.dispose();
   }
 
@@ -240,7 +283,7 @@ class _SmaphorePageState extends State<SmaphorePage> {
         backgroundColor: Colors.black,
         appBar: AppBar(
           title: const Text('Semaphore Detector'),
-          backgroundColor: Colors.green.shade800,
+          backgroundColor: Colors.green,
         ),
         body: Center(
           child: Padding(
@@ -263,6 +306,9 @@ class _SmaphorePageState extends State<SmaphorePage> {
     }
 
     final previewSize = _cameraController!.value.previewSize!;
+    final previewRatio = _cameraController!.value.aspectRatio;
+    final screenSize = MediaQuery.of(context).size;
+    final screenRatio = screenSize.width / screenSize.height;
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -278,15 +324,28 @@ class _SmaphorePageState extends State<SmaphorePage> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          CameraPreview(_cameraController!),
+          Center(
+            child: Transform.scale(
+              scale: previewRatio / screenRatio,
+              child: AspectRatio(
+                aspectRatio: previewRatio,
+                child: CameraPreview(_cameraController!),
+              ),
+            ),
+          ),
           if (_currentPose != null)
-            CustomPaint(
-              painter: PosePainter(
-                pose: _currentPose!,
-                imageSize: Size(previewSize.height, previewSize.width),
-                isFrontCamera: _isFrontCamera,
-                rightAngle: _smoothRight,
-                leftAngle: _smoothLeft,
+            Positioned.fill(
+              child: CustomPaint(
+                painter: PosePainter(
+                  pose: _currentPose!,
+                  imageSize: Size(
+                    previewSize.height,
+                    previewSize.width,
+                  ),
+                  isFrontCamera: _isFrontCamera,
+                  rightAngle: _smoothRight,
+                  leftAngle: _smoothLeft,
+                ),
               ),
             ),
           Center(

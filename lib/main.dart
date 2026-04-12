@@ -7,6 +7,7 @@ import 'package:semaphore_quiz/presentation/introduction/page/introductionCodePa
 import 'package:semaphore_quiz/presentation/learn/page/LearnsPramukaPage.dart';
 import 'package:semaphore_quiz/presentation/level/menu/levelhome.dart';
 import 'package:semaphore_quiz/presentation/onboarding/onboardingPage.dart';
+import 'package:semaphore_quiz/presentation/score/page/scorepage.dart';
 import 'package:semaphore_quiz/presentation/semaphore/semaphore.dart';
 import 'package:semaphore_quiz/presentation/splash/splash.dart';
 
@@ -15,11 +16,7 @@ late List<CameraDescription> cameras;
 bool isCameraAvailable = false;
 bool isAudioAvailable = false;
 
-void logError(
-  String message, {
-  Object? error,
-  StackTrace? stackTrace,
-}) {
+void logError(String message, {Object? error, StackTrace? stackTrace}) {
   if (kDebugMode) {
     debugPrint('[ERROR] $message');
     if (error != null) debugPrint('Detail: $error');
@@ -68,6 +65,7 @@ class MyApp extends StatelessWidget {
         '/smaphore': (context) => const SmaphorePage(),
         '/learn': (context) => const LearnPramukaPage(),
         '/introductioncode': (context) => const IntroductionCodePage(),
+        '/score': (context) => const ScorePage(),
       },
     );
   }
