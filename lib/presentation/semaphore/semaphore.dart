@@ -157,9 +157,9 @@ class _SmaphorePageState extends State<SmaphorePage> {
         return;
       }
 
-      final right = _calculateAngle(rightShoulder!, rightElbow!, rightWrist!);
+      final right = _calculateAngle(rightShoulder, rightElbow, rightWrist);
 
-      final left = _calculateAngle(leftShoulder!, leftElbow!, leftWrist!);
+      final left = _calculateAngle(leftShoulder, leftElbow, leftWrist);
 
       if (right == null || left == null) {
         _detectedLetter = "";
