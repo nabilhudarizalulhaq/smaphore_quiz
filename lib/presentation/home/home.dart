@@ -42,6 +42,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  // ignore: unused_element
   Future<void> _onBackTap() async {
     await AudioService.instance.playClick();
     if (!mounted) return;
