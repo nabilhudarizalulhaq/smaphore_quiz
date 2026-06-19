@@ -37,6 +37,7 @@ dependencies:
   share_plus: ^12.0.2
   cross_file: ^0.3.4
   just_audio: ^0.10.5
+  tflite_flutter: ^0.11.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -82,6 +83,9 @@ flutter:
     - assets/images/level/ic_l3.png
     - assets/images/level/ic_l4.png
     # ----------------------------
+    - assets/model/model_semaphore.tflite
+    - assets/model/labels.txt
+    - assets/model/feature_cols.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

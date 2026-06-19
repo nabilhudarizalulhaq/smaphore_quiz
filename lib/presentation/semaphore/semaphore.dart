@@ -5,6 +5,7 @@ import 'package:camera/camera.dart';
 import 'package:google_mlkit_pose_detection/google_mlkit_pose_detection.dart';
 import 'package:semaphore_quiz/main.dart';
 import 'package:semaphore_quiz/presentation/semaphore/utils/angle_smoother.dart';
+import 'package:semaphore_quiz/presentation/shared/widget/setting/services/semaphore_tflite_service.dart';
 import 'models/semaphore_model.dart';
 import 'painters/pose_painter.dart';
 import 'widget/angle_indicator.dart';
@@ -45,6 +46,8 @@ class _SmaphorePageState extends State<SmaphorePage>
     _poseDetector = PoseDetector(
       options: PoseDetectorOptions(mode: PoseDetectionMode.stream),
     );
+
+    SemaphoreTfliteService.instance.loadModel();
 
     _initCamera();
   }
@@ -188,7 +191,11 @@ class _SmaphorePageState extends State<SmaphorePage>
 
       _smoothRight = _rightSmoother.smooth(right);
       _smoothLeft = _leftSmoother.smooth(left);
-      _detectedLetter = _detectSemaphore(_smoothRight, _smoothLeft);
+      // _detectedLetter = _detectSemaphore(_smoothRight, _smoothLeft);
+      _detectedLetter = SemaphoreTfliteService.instance.predict(
+        pose,
+        threshold: 0.70,
+      );
     } catch (e, st) {
       _log('Proses frame gagal', error: e, stackTrace: st);
     } finally {
@@ -231,19 +238,19 @@ class _SmaphorePageState extends State<SmaphorePage>
     return acos(ratio) * 180 / pi;
   }
 
-  String _detectSemaphore(double right, double left) {
-    const tolerance = 15.0;
+  // String _detectSemaphore(double right, double left) {
+  //   const tolerance = 15.0;
 
-    bool match(double a, double b) => a >= b - tolerance && a <= b + tolerance;
+  //   bool match(double a, double b) => a >= b - tolerance && a <= b + tolerance;
 
-    for (final s in semaphoreList) {
-      if (match(right, s.right) && match(left, s.left)) {
-        return s.letter;
-      }
-    }
+  //   for (final s in semaphoreList) {
+  //     if (match(right, s.right) && match(left, s.left)) {
+  //       return s.letter;
+  //     }
+  //   }
 
-    return "";
-  }
+  //   return "";
+  // }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
@@ -272,6 +279,8 @@ class _SmaphorePageState extends State<SmaphorePage>
     controller?.stopImageStream().catchError((_) {});
     controller?.dispose().catchError((_) {});
     _poseDetector.close();
+
+    SemaphoreTfliteService.instance.close();
 
     super.dispose();
   }
@@ -338,10 +347,7 @@ class _SmaphorePageState extends State<SmaphorePage>
               child: CustomPaint(
                 painter: PosePainter(
                   pose: _currentPose!,
-                  imageSize: Size(
-                    previewSize.height,
-                    previewSize.width,
-                  ),
+                  imageSize: Size(previewSize.height, previewSize.width),
                   isFrontCamera: _isFrontCamera,
                   rightAngle: _smoothRight,
                   leftAngle: _smoothLeft,
