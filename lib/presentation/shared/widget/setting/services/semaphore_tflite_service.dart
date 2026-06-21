@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:flutter/services.dart';
 import 'package:google_mlkit_pose_detection/google_mlkit_pose_detection.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
@@ -9,15 +10,16 @@ class SemaphoreTfliteService {
   static final SemaphoreTfliteService instance = SemaphoreTfliteService._();
 
   Interpreter? _interpreter;
+
   List<String> _labels = [];
   List<String> _featureCols = [];
+
+  List<double> _mean = [];
+  List<double> _scale = [];
 
   bool get isReady => _interpreter != null;
 
   Future<void> loadModel() async {
-    // _interpreter ??= await Interpreter.fromAsset(
-    //   'model/model_semaphore.tflite',
-    // );
     try {
       _interpreter ??= await Interpreter.fromAsset(
         'model/model_semaphore.tflite',
@@ -26,6 +28,7 @@ class SemaphoreTfliteService {
       print('MODEL TFLITE BERHASIL DIMUAT');
     } catch (e) {
       print('GAGAL LOAD MODEL TFLITE: $e');
+      return;
     }
 
     final labelText = await rootBundle.loadString('assets/model/labels.txt');
@@ -41,22 +44,54 @@ class SemaphoreTfliteService {
     );
 
     _featureCols = List<String>.from(jsonDecode(featureText));
+
+    final scalerText = await rootBundle.loadString(
+      'assets/model/scaler_semaphore.json',
+    );
+
+    final scalerJson = jsonDecode(scalerText);
+
+    _mean = List<double>.from(
+      scalerJson['mean'].map((e) => (e as num).toDouble()),
+    );
+
+    _scale = List<double>.from(
+      scalerJson['scale'].map((e) => (e as num).toDouble()),
+    );
+
+    print('LABEL: ${_labels.length}');
+    print('FITUR: ${_featureCols.length}');
+    print('SCALER MEAN: ${_mean.length}');
+    print('SCALER SCALE: ${_scale.length}');
   }
 
-  String predict(Pose pose, {double threshold = 0.70}) {
-    if (_interpreter == null || _labels.isEmpty || _featureCols.isEmpty) {
+  String predict(Pose pose, {double threshold = 0.40}) {
+    if (_interpreter == null ||
+        _labels.isEmpty ||
+        _featureCols.isEmpty ||
+        _mean.isEmpty ||
+        _scale.isEmpty) {
       return '';
     }
 
-    final input = _extractFeatures(pose);
+    final rawInput = _extractFeatures(pose);
 
-    if (input.length != _featureCols.length) {
+    if (rawInput.length != _featureCols.length) {
       return '';
     }
+
+    if (_mean.length != rawInput.length || _scale.length != rawInput.length) {
+      return '';
+    }
+
+    final input = List<double>.generate(rawInput.length, (i) {
+      final scaleValue = _scale[i] == 0 ? 1.0 : _scale[i];
+      return (rawInput[i] - _mean[i]) / scaleValue;
+    });
 
     final output = List.generate(
       1,
-      (_) => List<double>.filled(_labels.length, 0),
+      (_) => List<double>.filled(_labels.length, 0.0),
     );
 
     _interpreter!.run([input], output);
@@ -72,6 +107,10 @@ class SemaphoreTfliteService {
         bestIndex = i;
       }
     }
+
+    print(
+      'PREDIKSI: ${_labels[bestIndex]} | CONF: ${bestScore.toStringAsFixed(3)}',
+    );
 
     if (bestScore < threshold) {
       return '';

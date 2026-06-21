@@ -20,13 +20,37 @@ class Levelhome extends StatelessWidget {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (_) => const SmaphorePage()),
+            MaterialPageRoute(builder: (_) => const SmaphorePage(level: 1)),
           );
         },
       ),
-      LevelImage2(title: 'Tingkat II\nSiaga Bantu', onTap: () {}),
-      LevelImage3(title: 'Tingkat III\nSiaga Tata', onTap: () {}),
-      LevelImage4(title: 'Tingkat IV\nPenggalang Ramu', onTap: () {}),
+      LevelImage2(
+        title: 'Tingkat II\nSiaga Bantu',
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const SmaphorePage(level: 2)),
+          );
+        },
+      ),
+      LevelImage3(
+        title: 'Tingkat III\nSiaga Tata',
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const SmaphorePage(level: 3)),
+          );
+        },
+      ),
+      LevelImage4(
+        title: 'Tingkat IV\nPenggalang Ramu',
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const SmaphorePage(level: 4)),
+          );
+        },
+      ),
     ];
 
     return Scaffold(
