@@ -105,6 +105,8 @@ class _HomePageState extends State<HomePage> {
                     routeName: '/level',
                   ),
 
+                  const SizedBox(height: 16),
+
                   const MenuImageButton(
                     title: 'Score History',
                     icon: Icons.play_arrow,
